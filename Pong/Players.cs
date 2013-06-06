@@ -25,15 +25,17 @@ namespace Players
     {
         public HumanPlayer(RectangleShape palette, int difficulty) : base (palette, difficulty) 
         {
-            Palette.KeyPress += new KeyPressEventHandler(Move_KeyPressed);
+            //Palette.KeyPress += new KeyPressEventHandler(this.Move_KeyPressed);
         }
         public void Move_KeyPressed (object sender, KeyPressEventArgs e)
         {
-            if (Palette.Location.Y < 540 && e.KeyChar == 's') Palette.Location = new Point(Palette.Location.X, Palette.Location.Y+5);
-            if (Palette.Location.Y > 30 && e.KeyChar == 'w') Palette.Location = new Point(Palette.Location.X,Palette.Location.Y-5);
+            if (Palette.Location.Y < 540 && e.KeyChar == 's') Palette.Location = new Point(Palette.Location.X, Palette.Location.Y+10*Difficulty);
+            if (Palette.Location.Y > 30 && e.KeyChar == 'w')  Palette.Location = new Point(Palette.Location.X, Palette.Location.Y-10*Difficulty);
         }
 
     }
+
+
 
     public class Player
     {
