@@ -17,7 +17,7 @@ namespace Pong
         public Board()
         {
             InitializeComponent();
-            TestPlayer = new HumanPlayer(RightPalette, 1);
+            TestPlayer = new HumanPlayer(RightPalette, 4);
             this.KeyPress += new KeyPressEventHandler(TestPlayer.Move_KeyPressed);
         }
     }

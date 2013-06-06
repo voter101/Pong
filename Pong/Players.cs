@@ -23,19 +23,31 @@ namespace Players
 
     public class HumanPlayer : ControlMethod
     {
-        public HumanPlayer(RectangleShape palette, int difficulty) : base (palette, difficulty) 
+        public HumanPlayer(RectangleShape palette, int difficulty)
+            : base(palette, difficulty)
         {
             //Palette.KeyPress += new KeyPressEventHandler(this.Move_KeyPressed);
         }
-        public void Move_KeyPressed (object sender, KeyPressEventArgs e)
+        public async void Move_KeyPressed(object sender, KeyPressEventArgs e)
         {
-            if (Palette.Location.Y < 540 && e.KeyChar == 's') Palette.Location = new Point(Palette.Location.X, Palette.Location.Y+10*Difficulty);
-            if (Palette.Location.Y > 30 && e.KeyChar == 'w')  Palette.Location = new Point(Palette.Location.X, Palette.Location.Y-10*Difficulty);
+            if (e.KeyChar == 's')
+            {
+                for (int i = 1; i < Difficulty * Difficulty; i++)
+                {
+                    if (Palette.Location.Y < 540) Palette.Location = new Point(Palette.Location.X, Palette.Location.Y + 1); else break;
+                    await Task.Delay(5);
+                }
+            }
+            if (e.KeyChar == 'w')
+            {
+                for (int i = 1; i < Difficulty * Difficulty; i++)
+                {
+                    if (Palette.Location.Y > 30) Palette.Location = new Point(Palette.Location.X, Palette.Location.Y - 1); else break;
+                    await Task.Delay(5);
+                }
+            }
         }
-
     }
-
-
 
     public class Player
     {
