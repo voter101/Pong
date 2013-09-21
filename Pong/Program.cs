@@ -1,4 +1,5 @@
 ﻿using Pong.Players;
+using Pong.Ball;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,12 @@ namespace Pong
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Board board = new Board();
+            BallObject ball = new BallObject(board.getBall());
+            board.timer.Tick += ball.updateBall;
             HumanPlayer test1 = new HumanPlayer(board, Side.LEFT);
             HumanPlayer test2 = new HumanPlayer(board, Side.RIGHT);
+            
+            
             Application.Run(board);
         }
     }

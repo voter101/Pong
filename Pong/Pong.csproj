@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ball\PathCalculator.cs" />
+    <Compile Include="Ball\Ball.cs" />
+    <Compile Include="Ball\Reflection.cs" />
     <Compile Include="Players\ControlMethod.cs" />
     <Compile Include="Players\HumanPlayer.cs" />
     <Compile Include="Board.cs">
@@ -82,6 +85,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

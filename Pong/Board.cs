@@ -27,5 +27,10 @@ namespace Pong
         {
             return playerR;
         }
+
+        public OvalShape getBall()
+        {
+            return ball;
+        }
     }
 }

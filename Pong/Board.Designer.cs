@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.ball = new Microsoft.VisualBasic.PowerPacks.OvalShape();
+            this.scoreLineL = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.scoreLineR = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.dividingLine = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.botBorder = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.topBorder = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.playerR = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
             this.playerL = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.scoreLineR = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            this.scoreLineL = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // shapeContainer1
@@ -44,6 +47,7 @@
             this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.ball,
             this.scoreLineL,
             this.scoreLineR,
             this.dividingLine,
@@ -55,16 +59,52 @@
             this.shapeContainer1.TabIndex = 0;
             this.shapeContainer1.TabStop = false;
             // 
+            // ball
+            // 
+            this.ball.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ball.BackColor = System.Drawing.Color.White;
+            this.ball.BorderColor = System.Drawing.Color.White;
+            this.ball.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.ball.FillColor = System.Drawing.Color.White;
+            this.ball.FillStyle = Microsoft.VisualBasic.PowerPacks.FillStyle.Solid;
+            this.ball.Location = new System.Drawing.Point(530, 430);
+            this.ball.Name = "ball";
+            this.ball.Size = new System.Drawing.Size(40, 40);
+            // 
+            // scoreLineL
+            // 
+            this.scoreLineL.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.scoreLineL.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            this.scoreLineL.BorderWidth = 20;
+            this.scoreLineL.Name = "scoreLineL";
+            this.scoreLineL.X1 = 50;
+            this.scoreLineL.X2 = 50;
+            this.scoreLineL.Y1 = 60;
+            this.scoreLineL.Y2 = 800;
+            // 
+            // scoreLineR
+            // 
+            this.scoreLineR.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.scoreLineR.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            this.scoreLineR.BorderWidth = 20;
+            this.scoreLineR.Name = "scoreLineR";
+            this.scoreLineR.X1 = 1050;
+            this.scoreLineR.X2 = 1050;
+            this.scoreLineR.Y1 = 60;
+            this.scoreLineR.Y2 = 800;
+            // 
             // dividingLine
             // 
-            this.dividingLine.BorderColor = System.Drawing.Color.White;
+            this.dividingLine.BorderColor = System.Drawing.Color.Silver;
             this.dividingLine.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dot;
             this.dividingLine.BorderWidth = 20;
             this.dividingLine.Name = "dividingLine";
             this.dividingLine.UseWaitCursor = true;
             this.dividingLine.X1 = 550;
             this.dividingLine.X2 = 550;
-            this.dividingLine.Y1 = 50;
+            this.dividingLine.Y1 = 60;
             this.dividingLine.Y2 = 800;
             // 
             // botBorder
@@ -116,36 +156,21 @@
             this.playerL.Size = new System.Drawing.Size(30, 220);
             this.playerL.UseWaitCursor = true;
             // 
-            // scoreLineR
+            // timer
             // 
-            this.scoreLineR.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.scoreLineR.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-            this.scoreLineR.BorderWidth = 20;
-            this.scoreLineR.Name = "scoreLineR";
-            this.scoreLineR.X1 = 1050;
-            this.scoreLineR.X2 = 1050;
-            this.scoreLineR.Y1 = 60;
-            this.scoreLineR.Y2 = 800;
-            // 
-            // scoreLineL
-            // 
-            this.scoreLineL.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.scoreLineL.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-            this.scoreLineL.BorderWidth = 20;
-            this.scoreLineL.Name = "scoreLineL";
-            this.scoreLineL.X1 = 50;
-            this.scoreLineL.X2 = 50;
-            this.scoreLineL.Y1 = 60;
-            this.scoreLineL.Y2 = 800;
+            this.timer.Enabled = true;
+            this.timer.Interval = 10;
             // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(1084, 862);
             this.Controls.Add(this.shapeContainer1);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.DoubleBuffered = true;
             this.Name = "Board";
             this.Text = "Board";
             this.ResumeLayout(false);
@@ -162,5 +187,7 @@
         private Microsoft.VisualBasic.PowerPacks.RectangleShape playerR;
         private Microsoft.VisualBasic.PowerPacks.LineShape scoreLineL;
         private Microsoft.VisualBasic.PowerPacks.LineShape scoreLineR;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape ball;
+        public System.Windows.Forms.Timer timer;
     }
 }
