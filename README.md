@@ -2,5 +2,4 @@ Projekt grupowy na przedmiot "Programowanie Obiektowe" prowadzony na II UWr w se
 
 Autorzy:
  - Kacper Lamparski
- - Paula Sedzikowska
  - Wiktor Mociun
