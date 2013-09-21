@@ -46,13 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Players.cs" />
+    <Compile Include="Players\ControlMethod.cs" />
+    <Compile Include="Players\HumanPlayer.cs" />
     <Compile Include="Board.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Board.Designer.cs">
       <DependentUpon>Board.cs</DependentUpon>
     </Compile>
+    <Compile Include="Players\Side.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Board.resx">

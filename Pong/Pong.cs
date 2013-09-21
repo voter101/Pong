@@ -1,5 +1,4 @@
-﻿using Pong.Players;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Pong
 {
-    static class Program
+    static class Pong
     {
         /// <summary>
         /// The main entry point for the application.
@@ -18,9 +17,8 @@ namespace Pong
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Board board = new Board();
-            HumanPlayer test1 = new HumanPlayer(board, Side.LEFT);
-            HumanPlayer test2 = new HumanPlayer(board, Side.RIGHT);
             Application.Run(board);
+            HumanPlayer test = new HumanPlayer(board, true);
         }
     }
 }

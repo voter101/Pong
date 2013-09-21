@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.PowerPacks;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,16 @@ namespace Pong
         public Board()
         {
             InitializeComponent();
+        }
+
+        public RectangleShape getPlayerL()
+        {
+            return playerL;
+        }
+
+        public RectangleShape getPlayerR()
+        {
+            return playerR;
         }
     }
 }
