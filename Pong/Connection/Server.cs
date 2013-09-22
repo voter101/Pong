@@ -27,7 +27,7 @@ namespace TCPServer {
             }
         }
 
-        private Server() {}
+        private Server() { }
 
         public static Server Instance {
             get {
@@ -47,13 +47,18 @@ namespace TCPServer {
                 throw new Exception("TCP Server already initialized");
             serverPort = port;
             System.Net.IPAddress ip = System.Net.IPAddress.Parse("127.0.0.1");
-            connectionListener = new TcpListener(ip, serverPort);
-            connectionListener.Start();
-            client = connectionListener.AcceptTcpClient();
-            Console.WriteLine("Server is running on " + connectionListener.LocalEndpoint);
-            connectionInitialized = true;
-            thread = new Thread(new ThreadStart(handleConnection));
-            thread.Start();
+            try {
+                connectionListener = new TcpListener(ip, serverPort);
+                connectionListener.Start();
+                client = connectionListener.AcceptTcpClient();
+                Console.WriteLine("Server is running on " + connectionListener.LocalEndpoint);
+                connectionInitialized = true;
+                thread = new Thread(new ThreadStart(handleConnection));
+                thread.Start();
+            } catch (SocketException e) {
+                Console.WriteLine("Connection uninitialized\n" + e.Message);
+                Stop();
+            }
         }
 
         private void handleConnection() {
@@ -61,19 +66,18 @@ namespace TCPServer {
             byte[] message = new byte[4096];
             int bytesRead;
             ASCIIEncoding encoder = new ASCIIEncoding();
-            while (true) {
-                bytesRead = 0;
-                try {
+            try {
+                while (true) {
+                    bytesRead = 0;
                     bytesRead = stream.Read(message, 0, 4096);
-                } catch {
-                    continue;
+                    if (bytesRead == 0)
+                        throw new Exception("Disconnected");
+                    System.Console.WriteLine(encoder.GetString(message, 0, bytesRead));
+                    stream.Write(ack, 0, ack.Length);
                 }
-                if (bytesRead == 0)
-                    continue;
-                System.Console.WriteLine(encoder.GetString(message, 0, bytesRead));
-                stream.Write(ack, 0, ack.Length);
+            } catch {
+                Console.WriteLine("Conenction error");
             }
-            stream.Close();
             Stop();
         }
 

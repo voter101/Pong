@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,11 +10,12 @@ namespace TCPClient {
     class Client {
 
         private static Client instance;
-        private Thread thread;
         private TcpClient client;
         private String serverIP;
         private int serverPort;
         private Boolean connectionInitialized = false;
+        private Thread thread;
+        private Queue messageQue;
 
         private Client() { }
 
@@ -33,33 +34,50 @@ namespace TCPClient {
             serverPort = port;
             try {
                 client = new TcpClient(ip, port);
+                connectionInitialized = true;
                 thread = new Thread(new ThreadStart(handleConnection));
                 thread.Start();
-            } catch (Exception e) {
-                Console.WriteLine("Connection lost" + e.Message);
+            } catch (SocketException e) {
+                Console.WriteLine("Connection uninitialized\n" + e.Message);
+                Close();
             }
         }
 
         private void handleConnection() {
+            messageQue = new Queue();
             NetworkStream stream = client.GetStream();
-            string message = "Chuj";
-            while (true) {
-                byte[] data = prepareMessage(message);
-                stream.Write(data, 0, data.Length);
-                Console.WriteLine("Message Sent: {0}", message);
-                byte[] responeData = new byte[256];
-                int bytes = stream.Read(responeData, 0, responeData.Length);
-                String respone = System.Text.Encoding.ASCII.GetString(responeData, 0, bytes);
-                if (respone != "1")
-                    Console.WriteLine("Unexpected server respone");
+            try {
+                while (true) {
+                    string message = (string)messageQue.Dequeue();
+                    if (message == null)
+                        continue;
+                    byte[] data = prepareMessage(message);
+                    stream.Write(data, 0, data.Length);
+                    Console.WriteLine("Message Sent: {0}", message);
+                    byte[] responeData = new byte[256];
+                    int bytes = stream.Read(responeData, 0, responeData.Length);
+                    String respone = System.Text.Encoding.ASCII.GetString(responeData, 0, bytes);
+                    if (respone != "1")
+                        Console.WriteLine("Unexpected server respone.");
+                }
+            } catch {
+                Console.WriteLine("TCPClient error: " + e.Message);
+            } finally {
+                Close();
             }
-            stream.Close();
-            client.Close();
-            connectionInitialized = false;
         }
 
         private byte[] prepareMessage(string data) {
             return System.Text.Encoding.ASCII.GetBytes(data);
+        }
+
+        public void SendMessage(string message) {
+            messageQue.Enqueue(message);
+        }
+
+        public void Close() {
+            client.Close();
+            connectionInitialized = false;
         }
 
         public Boolean Initialized() {
