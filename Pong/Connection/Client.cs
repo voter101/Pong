@@ -1,4 +1,4 @@
-﻿using Systusing System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
@@ -60,7 +60,7 @@ namespace TCPClient {
                     if (respone != "1")
                         Console.WriteLine("Unexpected server respone.");
                 }
-            } catch {
+            } catch (SocketException e) {
                 Console.WriteLine("TCPClient error: " + e.Message);
             } finally {
                 Close();
