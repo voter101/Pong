@@ -9,7 +9,7 @@ namespace Pong.Ball
     public class PathCalculator
     {
         private int angle;
-        public int angleSet
+        public int Angle
         { 
             get {return angle;}
             set
@@ -26,12 +26,14 @@ namespace Pong.Ball
             get;
             private set;
         }
+        private Random rand = new Random();
 
         public void updateAngle(Reflection type)
         {
             if (type != Reflection.NONE)
             {
-                angleSet = (type == Reflection.VERTICAL ? 180 : 0) - angle;
+                Angle = (type == Reflection.VERTICAL ? 180 : 0) - Angle;
+                Angle += rand.Next(20) - 10;
                 updateProportions();
             }
         }

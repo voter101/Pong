@@ -1,14 +1,16 @@
-﻿using Pong.Players;
-using Pong.Ball;
+﻿#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+#endregion
 
 namespace Pong
 {
-    static class Program
+#if WINDOWS || LINUX
+    /// <summary>
+    /// The main class.
+    /// </summary>
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -16,16 +18,9 @@ namespace Pong
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Board board = new Board();
-            BallObject ball = new BallObject(board.getBall());
-            board.timer.Tick += ball.updateBall;
-            HumanPlayer test1 = new HumanPlayer(board, Side.LEFT);
-            HumanPlayer test2 = new HumanPlayer(board, Side.RIGHT);
-            
-            
-            Application.Run(board);
+            using (var game = new Pong())
+                game.Run();
         }
     }
+#endif
 }
