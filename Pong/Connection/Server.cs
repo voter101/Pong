@@ -38,8 +38,8 @@ namespace TCPServer {
         }
 
         /**
-* Note: We want to have only 1 client
-*/
+        * Note: We want to have only 1 client
+        */
         public void Initialize(ushort port) {
             if (Initialized())
                 throw new Exception("TCP Server already initialized");
