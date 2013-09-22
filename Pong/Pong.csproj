@@ -38,6 +38,8 @@
     <Compile Include="Ball\Ball.cs" />
     <Compile Include="Ball\PathCalculator.cs" />
     <Compile Include="Ball\Reflection.cs" />
+    <Compile Include="Connection\Client.cs" />
+    <Compile Include="Connection\Server.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Players\HumanPlayer.cs" />
     <Compile Include="Pong.cs" />
