@@ -1,0 +1,94 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Net.Sockets;
+
+
+namespace TCPServer {
+    class Server {
+
+        private static Server instance;
+        private Thread thread;
+        private TcpListener connectionListener;
+        private TcpClient client;
+        private Socket connectionSocket;
+        private Boolean connectionInitialized = false;
+        private ushort serverPort;
+        private byte[] ack;
+
+        public string AckMessage {
+            get {
+                return System.Text.Encoding.ASCII.GetString(ack, 0, ack.Length);
+            }
+            set {
+                ack = System.Text.Encoding.ASCII.GetBytes(value);
+            }
+        }
+
+        private Server() {}
+
+        public static Server Instance {
+            get {
+                if (instance == null) {
+                    instance = new Server();
+                    instance.AckMessage = "1";
+                }
+                return instance;
+            }
+        }
+
+        /**
+         * Note: We want to have only 1 client
+         */
+        public void Initialize(ushort port) {
+            if (Initialized())
+                throw new Exception("TCP Server already initialized");
+            serverPort = port;
+            System.Net.IPAddress ip = System.Net.IPAddress.Parse("127.0.0.1");
+            connectionListener = new TcpListener(ip, serverPort);
+            connectionListener.Start();
+            client = connectionListener.AcceptTcpClient();
+            Console.WriteLine("Server is running on " + connectionListener.LocalEndpoint);
+            connectionInitialized = true;
+            thread = new Thread(new ThreadStart(handleConnection));
+            thread.Start();
+        }
+
+        private void handleConnection() {
+            NetworkStream stream = client.GetStream();
+            byte[] message = new byte[4096];
+            int bytesRead;
+            ASCIIEncoding encoder = new ASCIIEncoding();
+            while (true) {
+                bytesRead = 0;
+                try {
+                    bytesRead = stream.Read(message, 0, 4096);
+                } catch {
+                    continue;
+                }
+                if (bytesRead == 0)
+                    continue;
+                System.Console.WriteLine(encoder.GetString(message, 0, bytesRead));
+                stream.Write(ack, 0, ack.Length);
+            }
+            stream.Close();
+            Stop();
+        }
+
+        private byte[] prepareMessage(string data) {
+            return System.Text.Encoding.ASCII.GetBytes(data);
+        }
+
+        public void Stop() {
+            client.Close();
+            connectionListener.Stop();
+            connectionInitialized = false;
+        }
+
+        public Boolean Initialized() {
+            return connectionInitialized;
+        }
+    }
+}
