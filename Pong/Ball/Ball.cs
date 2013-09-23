@@ -85,6 +85,7 @@ namespace Pong.Ball
                 return Reflection.NONE;
         }
 
+<<<<<<< HEAD
         public void reset()
         {
             position = new Vector2(480-radius, 400-radius);
@@ -104,6 +105,10 @@ namespace Pong.Ball
                 right.score++;
                 reset();
             }
+=======
+        public string ToString() {
+            return position.X + ";" + position.Y + ";" + radius;
+>>>>>>> 0210ae188603a391094475f91fca69022a022490
         }
     }
 }
