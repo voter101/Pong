@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Net.Sockets;
+using System.Net;
 
 namespace TCPServer {
     class Server {
@@ -14,6 +15,8 @@ namespace TCPServer {
         private Socket connectionSocket;
         private Boolean connectionInitialized = false;
         private ushort serverPort;
+        private Queue messageQue;
+        private string ipClient;
         private byte[] ack;
 
         public string AckMessage {
@@ -59,6 +62,12 @@ namespace TCPServer {
             }
         }
 
+        public string GetClientIP() {
+            if (!client.Connected)
+                throw new Exception("Client connection uninitialized");
+            return IPAddress.Parse(((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString()).ToString();
+        }
+
         private void handleConnection() {
             NetworkStream stream = client.GetStream();
             byte[] message = new byte[4096];
@@ -87,6 +96,16 @@ namespace TCPServer {
             client.Close();
             connectionListener.Stop();
             connectionInitialized = false;
+        }
+
+        private void saveMessage(string message) {
+            messageQue.Enqueue(message);
+        }
+
+        public string GetMessage() {
+            if (!Initialized())
+                throw new Exception("Connection not initialized");
+            return (string) messageQue.Dequeue();
         }
 
         public Boolean Initialized() {
