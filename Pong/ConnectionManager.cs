@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pong.Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +8,11 @@ using System.Threading;
 namespace Pong {
     class GameInitializator{
 
-        const int PORT = 1337:
+        const int PORT = 1337;
 
         private static GameInitializator instance;
-        private Players.Player playerLeft;
-        private Players.Player playerRight;
+        private Player playerLeft;
+        private Player playerRight;
         private Ball.BallObject ball;
         private Thread thread;
         private TCPServer.Server server;
@@ -48,15 +49,19 @@ namespace Pong {
         }
 
         public void UpdateBallStatus() {
-            playerLeft.SendInformation(ball.ToString());
-            playerRight.SendInformation(ball.ToString());
+            if (playerLeft is NetworkPlayer)
+                ((NetworkPlayer)playerLeft).SendInformation(ball.ToString());
+            if (playerRight is NetworkPlayer)
+                ((NetworkPlayer)playerRight).SendInformation(ball.ToString());
         }
         
         private void updatePositionInformation() {
             while (true) {
                 string message = playerLeft.position.ToString() + ";" + playerRight.position.ToString();
-                playerLeft.SendInformation(message);
-                playerRight.SendInformation(message);
+                if (playerLeft is NetworkPlayer)
+                    ((NetworkPlayer)playerLeft).SendInformation(message);
+                if (playerRight is NetworkPlayer)
+                    ((NetworkPlayer)playerRight).SendInformation(message);
                 Thread.Sleep(20);
             }
         }

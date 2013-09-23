@@ -14,7 +14,7 @@ namespace Pong.Players {
             this.client = client;
         }
 
-        override public void SendInformation(string message) {
+        public void SendInformation(string message) {
             client.SendMessage(message);
         }
 
