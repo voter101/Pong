@@ -101,14 +101,20 @@ namespace Pong.Ball
         {
             if (position.X <= 0)
             {
-                left.score++;
+                right.score++;
                 reset();
             }
             if (position.X >= 960)
             {
-                right.score++;
+                left.score++;
                 reset();
             }
+        }
+
+        internal void stop()
+        {
+            calculator.xProportion = 0;
+            calculator.yProportion = 0;
         }
     }
 }

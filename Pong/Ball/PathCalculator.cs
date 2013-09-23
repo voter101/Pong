@@ -19,14 +19,8 @@ namespace Pong.Ball
                 updateProportions();
             }
         }
-        public double xProportion { 
-            get; 
-            private set;
-        }
-        public double yProportion { 
-            get;
-            private set;
-        }
+        public double xProportion;
+        public double yProportion;
         private Random rand = new Random();
 
         public void updateAngle(Reflection type)

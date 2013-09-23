@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using Pong.Ball;
 using Pong.Players;
+using System.Timers;
 #endregion
 
 namespace Pong
@@ -20,9 +21,10 @@ namespace Pong
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D background;
 
+        Texture2D background;
         Texture2D[] score = new Texture2D[6];
+        Texture2D[] whoWon = new Texture2D[2];
 
         float playerSpeed = 8.0f;
 
@@ -31,7 +33,7 @@ namespace Pong
         Player left;
         Player right;
 
-        private BallObject ball;
+        BallObject ball;
 
         public Pong()
             : base()
@@ -77,6 +79,8 @@ namespace Pong
             background = Content.Load<Texture2D>("Graphics\\board");
             for (int i = 0; i < 6; i++)
                 score[i] = Content.Load<Texture2D>("Graphics\\"+i);
+            whoWon[0] = Content.Load<Texture2D>("Graphics\\leftWon");
+            whoWon[1] = Content.Load<Texture2D>("Graphics\\rightWon");
             
         }
 
@@ -98,30 +102,42 @@ namespace Pong
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            currKeyboard = Keyboard.GetState();
-
-            HumanPlayer player = (left is HumanPlayer ? (HumanPlayer)left : null);
-            if (player != null && currKeyboard.IsKeyDown(player.DownKey))
-                player.position.Y += playerSpeed;
-
-            if (player != null && currKeyboard.IsKeyDown(player.UpKey))
-                player.position.Y -= playerSpeed;
-
-            player = (right is HumanPlayer ? (HumanPlayer)right : null);
-            if (player != null && currKeyboard.IsKeyDown(player.DownKey))
-                player.position.Y += playerSpeed;
-
-            if (player != null && currKeyboard.IsKeyDown(player.UpKey))
-                player.position.Y -= playerSpeed;
-
-            if (currKeyboard.IsKeyDown(Keys.R))
+            if (left.score < 5 && right.score < 5)
             {
-                ball.reset();
+                currKeyboard = Keyboard.GetState();
+
+                HumanPlayer player = (left is HumanPlayer ? (HumanPlayer)left : null);
+                if (player != null && currKeyboard.IsKeyDown(player.DownKey))
+                    player.position.Y += playerSpeed;
+
+                if (player != null && currKeyboard.IsKeyDown(player.UpKey))
+                    player.position.Y -= playerSpeed;
+
+                player = (right is HumanPlayer ? (HumanPlayer)right : null);
+                if (player != null && currKeyboard.IsKeyDown(player.DownKey))
+                    player.position.Y += playerSpeed;
+
+                if (player != null && currKeyboard.IsKeyDown(player.UpKey))
+                    player.position.Y -= playerSpeed;
+
+                if (currKeyboard.IsKeyDown(Keys.R))
+                {
+                    ball.reset();
+                }
+
+
+                base.Update(gameTime);
+            }
+            else
+            {
+                ball.stop();
             }
                 
+        }
 
-            base.Update(gameTime);
+        private void endGame(object sender, ElapsedEventArgs e)
+        {
+            Exit();
         }
 
         /// <summary>
@@ -140,7 +156,10 @@ namespace Pong
             left.updatePlayer(spriteBatch);
             right.updatePlayer(spriteBatch);
 
-            
+            if (left.score == 5)
+                spriteBatch.Draw(whoWon[0], new Vector2(240,330), Color.White);
+            if (right.score == 5)
+                spriteBatch.Draw(whoWon[1], new Vector2(240, 330), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
