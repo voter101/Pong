@@ -58,5 +58,9 @@ namespace Pong.Ball
             else 
                 return Reflection.NONE;
         }
+
+        public string ToString() {
+            return position.X + ";" + position.Y + ";" + radius;
+        }
     }
 }

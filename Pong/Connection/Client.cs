@@ -72,6 +72,8 @@ namespace TCPClient {
         }
 
         public void SendMessage(string message) {
+            if (!Initialized())
+                throw new Exception("Connection not initialized");
             messageQue.Enqueue(message);
         }
 
