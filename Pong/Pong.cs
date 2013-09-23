@@ -22,13 +22,11 @@ namespace Pong
         SpriteBatch spriteBatch;
         Texture2D background;
 
+        Texture2D[] score = new Texture2D[6];
+
         float playerSpeed = 8.0f;
 
-        KeyboardState prevKeyboard;
-        GamePadState prevGamepad;
-
         KeyboardState currKeyboard;
-        GamePadState currGamepad;
 
         Player left;
         Player right;
@@ -51,13 +49,13 @@ namespace Pong
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2); 
-            left = new HumanPlayer(Side.LEFT);
-            right = new HumanPlayer(Side.RIGHT);
-            ball = new BallObject(playerPosition, left, right);
             graphics.PreferredBackBufferWidth = 960;
             graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
+            Vector2 ballPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2); 
+            left = new HumanPlayer(Side.LEFT);
+            right = new HumanPlayer(Side.RIGHT);
+            ball = new BallObject(ballPosition, left, right);
 
             base.Initialize();
 
@@ -77,6 +75,8 @@ namespace Pong
             left.loadTextures(Content.Load<Texture2D>("Graphics\\lPaddle"));
             right.loadTextures(Content.Load<Texture2D>("Graphics\\rPaddle"));
             background = Content.Load<Texture2D>("Graphics\\board");
+            for (int i = 0; i < 6; i++)
+                score[i] = Content.Load<Texture2D>("Graphics\\"+i);
             
         }
 
@@ -99,27 +99,27 @@ namespace Pong
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            prevGamepad = currGamepad;
-            prevKeyboard = currKeyboard;
-
             currKeyboard = Keyboard.GetState();
-            currGamepad = GamePad.GetState(PlayerIndex.One); 
 
-            left.position.X += currGamepad.ThumbSticks.Left.X * playerSpeed;
-            left.position.Y -= currGamepad.ThumbSticks.Left.Y * playerSpeed;
             HumanPlayer player = (left is HumanPlayer ? (HumanPlayer)left : null);
-            if (player != null && (currKeyboard.IsKeyDown(player.DownKey) || currGamepad.DPad.Down == ButtonState.Pressed))
+            if (player != null && currKeyboard.IsKeyDown(player.DownKey))
                 player.position.Y += playerSpeed;
 
-            if (player != null && (currKeyboard.IsKeyDown(player.UpKey) || currGamepad.DPad.Down == ButtonState.Pressed))
+            if (player != null && currKeyboard.IsKeyDown(player.UpKey))
                 player.position.Y -= playerSpeed;
 
             player = (right is HumanPlayer ? (HumanPlayer)right : null);
-            if (player != null && (currKeyboard.IsKeyDown(player.DownKey) || currGamepad.DPad.Down == ButtonState.Pressed))
+            if (player != null && currKeyboard.IsKeyDown(player.DownKey))
                 player.position.Y += playerSpeed;
 
-            if (player != null && (currKeyboard.IsKeyDown(player.UpKey) || currGamepad.DPad.Down == ButtonState.Pressed))
-                player.position.Y -= playerSpeed; 
+            if (player != null && currKeyboard.IsKeyDown(player.UpKey))
+                player.position.Y -= playerSpeed;
+
+            if (currKeyboard.IsKeyDown(Keys.R))
+            {
+                ball.reset();
+            }
+                
 
             base.Update(gameTime);
         }
@@ -134,9 +134,13 @@ namespace Pong
             spriteBatch.Begin();
             // TODO: Add your drawing code here
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(score[left.score], new Rectangle(350, 70, 50, 80), Color.White);
+            spriteBatch.Draw(score[right.score], new Rectangle(560, 70, 50, 80), Color.White);
             ball.updateBall(spriteBatch);
             left.updatePlayer(spriteBatch);
             right.updatePlayer(spriteBatch);
+
+            
 
             spriteBatch.End();
             base.Draw(gameTime);

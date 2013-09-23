@@ -14,7 +14,7 @@ namespace Pong.Players
         protected Side side;
         public Texture2D texture;
         public Vector2 position;
-
+        public int score = 0;
 
         public Player(Side side)
         {
@@ -37,6 +37,10 @@ namespace Pong.Players
 
         public void updatePlayer(SpriteBatch sprites) 
         {
+            if (position.Y > 770 - 160)
+                position.Y = 770 - 160;
+            if (position.Y < 30)
+                position.Y = 30;
             sprites.Draw(texture, position, Color.White);
         }
     }

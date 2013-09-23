@@ -16,6 +16,7 @@ namespace Pong.Ball
             {
                 angle = value % 360;
                 if (angle < 0) angle += 360;
+                updateProportions();
             }
         }
         public double xProportion { 
@@ -32,9 +33,8 @@ namespace Pong.Ball
         {
             if (type != Reflection.NONE)
             {
-                Angle = (type == Reflection.VERTICAL ? 180 : 0) - Angle;
+                Angle = type.Angle - Angle;
                 Angle += rand.Next(20) - 10;
-                updateProportions();
             }
         }
 
