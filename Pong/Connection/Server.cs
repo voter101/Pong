@@ -6,7 +6,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 
-namespace TCPServer {
+namespace Pong.Connection {
     class Server {
         private static Server instance;
         private Thread thread;
