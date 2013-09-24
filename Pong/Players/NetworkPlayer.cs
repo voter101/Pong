@@ -14,13 +14,5 @@ namespace Pong.Players {
             this.server = server;
             this.client = client;
         }
-
-        public void SendInformation(string message) {
-            client.SendMessage(message);
-        }
-
-        public string GetNewInformation() {
-            return server.GetMessage();
-        }
     }
 }

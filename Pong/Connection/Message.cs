@@ -11,19 +11,19 @@ namespace Pong.Connection {
 
         public int VectorCount; 
         public int Radius;
-        private Vector2[] vectors;
+        public Vector2[] Vectors;
 
         public Message(Vector2 player1Position, Vector2 player2Position) {
             VectorCount = 2;
-            vectors = new Vector2[2];
-            vectors[0] = player1Position;
-            vectors[1] = player2Position;
+            Vectors = new Vector2[2];
+            Vectors[0] = player1Position;
+            Vectors[1] = player2Position;
         }
 
         public Message(Vector2 ballPosition, int radius) {
             VectorCount = 1;
-            vectors = new Vector2[1];
-            vectors[0] = ballPosition;
+            Vectors = new Vector2[1];
+            Vectors[0] = ballPosition;
             this.Radius = radius;
         }
 

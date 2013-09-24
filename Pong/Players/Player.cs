@@ -37,7 +37,7 @@ namespace Pong.Players {
             sprites.Draw(texture, position, Color.White);
         }
 
-        public string ToString() {
+        public override string ToString() {
             return position.X.ToString() + ';' + position.Y.ToString();
         }
     }

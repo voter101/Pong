@@ -22,6 +22,11 @@ namespace Pong.Ball
         }
         private Texture2D texture;
         private int radius = 20;
+        public int Radius
+        {
+            get { return radius; }
+            set { radius = value; }
+        }
 
         private Player left;
         private Player right;
@@ -45,7 +50,6 @@ namespace Pong.Ball
 
         public void updateBall(SpriteBatch sprites)
         {
-            
             int newX = (int)Math.Round(speed * calculator.xProportion, 0);
             int newY = (int)Math.Round(speed * calculator.yProportion, 0);
             position.X = position.X + newX;
@@ -53,7 +57,6 @@ namespace Pong.Ball
             sprites.Draw(texture, position, Color.White);
             calculator.updateAngle(hitType());
             checkScore();
-
         }
 
         private Reflection hitType()
@@ -85,8 +88,7 @@ namespace Pong.Ball
                 return Reflection.NONE;
         }
 
-        public string ToString()
-        {
+        public override string ToString() {
             return position.X + ";" + position.Y + ";" + radius;
         }
 
