@@ -32,7 +32,6 @@ namespace Pong
 
         Player left;
         Player right;
-        private Overseer overseer;
 
         BallObject ball;
 

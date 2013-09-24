@@ -1,5 +1,4 @@
-﻿using Pong.Players;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,9 +15,6 @@ namespace Pong {
         private static GameInitializator instance;
         private Player left;
         private Player right;
-        private Ball.BallObject ball;
-        private Thread threadReceiver;
-        private Thread threadSender;
         private Server server;
         private Client client;
         private Boolean isServer;
@@ -37,9 +33,10 @@ namespace Pong {
         public void StartServer(ushort port = PORT) {
             isServer = true;
             server = Server.Instance;
+            client = Client.Instance;
             server.Initialize(port);
             if (server.Initialized())
-                client.Initialize(server.GetClientIP(), port);
+                client.Initialize(server.GetClientIP(), port++);
             else
                 throw new Exception("Cannot start connection");
         }
@@ -48,8 +45,9 @@ namespace Pong {
             isServer = false;
             client = Client.Instance;
             client.Initialize(ip, port);
+            server = Server.Instance;
             if (client.Initialized())
-                server.Initialize(port);
+                server.Initialize(port++);
             else
                 throw new Exception("Cannot start connection");
         }

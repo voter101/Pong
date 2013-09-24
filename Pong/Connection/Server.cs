@@ -12,11 +12,9 @@ namespace Pong.Connection {
         private Thread thread;
         private TcpListener connectionListener;
         private TcpClient client;
-        private Socket connectionSocket;
         private Boolean connectionInitialized = false;
         private ushort serverPort;
         private Queue messageQue;
-        private string ipClient;
         private byte[] ack;
 
         public string AckMessage {
@@ -47,7 +45,7 @@ namespace Pong.Connection {
             if (Initialized())
                 throw new Exception("TCP Server already initialized");
             serverPort = port;
-            System.Net.IPAddress ip = System.Net.IPAddress.Parse("127.0.0.1");
+            System.Net.IPAddress ip = System.Net.IPAddress.Any;
             try {
                 connectionListener = new TcpListener(ip, serverPort);
                 connectionListener.Start();
@@ -73,6 +71,7 @@ namespace Pong.Connection {
             byte[] message = new byte[4096];
             int bytesRead;
             ASCIIEncoding encoder = new ASCIIEncoding();
+            messageQue = new Queue();
             try {
                 while (true) {
                     bytesRead = 0;

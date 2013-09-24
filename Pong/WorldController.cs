@@ -20,19 +20,6 @@ namespace Pong {
         private Client client;
         private Boolean isServer;
 
-        // No more time... Got to do this
-        public Client TCPClient {
-            get {
-                return client;
-            }
-        }
-
-        public Server TCPServer {
-            get {
-                return server;
-            }
-        }
-
         public WorldController(Player player1, Player player2, 
             Server server = null, Client client = null, Boolean isServer = true) {
             left = player1;

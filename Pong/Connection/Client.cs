@@ -48,7 +48,14 @@ namespace Pong.Connection {
             NetworkStream stream = client.GetStream();
             try {
                 while (true) {
-                    string message = (string)messageQue.Dequeue();
+                    string message;
+                    try {
+                        if (messageQue.Count == 0)
+                            continue;
+                        message = (string)messageQue.Dequeue();
+                    } catch (InvalidOperationException) {
+                        continue;
+                    }
                     if (message == null)
                         continue;
                     byte[] data = prepareMessage(message);
