@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Pong.Connection;
 
 namespace Pong.Players {
     class NetworkPlayer : Player {
 
-        TCPServer.Server server;
-        TCPClient.Client client;
+        Server server;
+        Client client;
 
-        public NetworkPlayer(TCPServer.Server server, TCPClient.Client client) : base(Side.RIGHT) {
+        public NetworkPlayer(Server server, Client client) : base(Side.RIGHT) {
             this.server = server;
             this.client = client;
         }
