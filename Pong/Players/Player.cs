@@ -36,5 +36,9 @@ namespace Pong.Players {
                 position.Y = 30;
             sprites.Draw(texture, position, Color.White);
         }
+
+        public string ToString() {
+            return position.X.ToString() + ';' + position.Y.ToString();
+        }
     }
 }

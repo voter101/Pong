@@ -6,7 +6,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.IO;
 
-namespace TCPClient {
+namespace Pong.Connection {
     class Client {
 
         private static Client instance;
