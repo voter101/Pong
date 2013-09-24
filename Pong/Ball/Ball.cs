@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace Pong.Ball
 {
-    class BallObject
+    public class BallObject
     {
         private PathCalculator calculator = new PathCalculator();
         private Vector2 position;
@@ -32,13 +32,16 @@ namespace Pong.Ball
         private Player right;
         private int speed = 10;
         private Random rand = new Random();
-        
+        private Overseer overseer;
 
-        public BallObject(Vector2 position, Player left, Player right)
-        {
-            this.position = position;
+        public BallObject(Player left, Player right, Overseer overseer) {
             this.left = left;
             this.right = right;
+            this.overseer = overseer;
+        }
+
+        public void SetStartingParams(Vector2 position) {
+            this.position = position;
             calculator.Angle = rand.Next();
             calculator.updateProportions();
         }
@@ -56,6 +59,7 @@ namespace Pong.Ball
             position.Y = position.Y + newY;
             sprites.Draw(texture, position, Color.White);
             calculator.updateAngle(hitType());
+            overseer.UpdateBallData();
             checkScore();
         }
 

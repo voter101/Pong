@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.IO;
 
 namespace Pong.Connection {
-    class Client {
+    public class Client {
 
         private static Client instance;
         private TcpClient client;
@@ -78,7 +78,8 @@ namespace Pong.Connection {
         }
 
         public void Close() {
-            client.Close();
+            if (client != null)
+                client.Close();
             connectionInitialized = false;
         }
 

@@ -43,6 +43,7 @@
     <Compile Include="Connection\MessageAnalyzer.cs" />
     <Compile Include="Connection\Server.cs" />
     <Compile Include="GameInitializator.cs" />
+    <Compile Include="Overseer.cs" />
     <Compile Include="Players\NetworkPlayer.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Players\HumanPlayer.cs" />

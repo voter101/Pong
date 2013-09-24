@@ -32,12 +32,15 @@ namespace Pong
 
         Player left;
         Player right;
+        private Overseer overseer;
 
         BallObject ball;
 
-        public Pong()
-            : base()
+        public Pong(Player left, Player right, BallObject ball) : base()
         {
+            this.left = left;
+            this.right = right;
+            this.ball = ball;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -54,13 +57,9 @@ namespace Pong
             graphics.PreferredBackBufferWidth = 960;
             graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
-            Vector2 ballPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2); 
-            left = new HumanPlayer(Side.LEFT);
-            right = new HumanPlayer(Side.RIGHT);
-            ball = new BallObject(ballPosition, left, right);
-
+            Vector2 ballPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            ball.SetStartingParams(ballPosition);
             base.Initialize();
-
         }
 
         /// <summary>

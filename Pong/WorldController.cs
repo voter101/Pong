@@ -9,7 +9,7 @@ using Pong.Ball;
 using Pong.Connection;
 
 namespace Pong {
-    class WorldController {
+    public class WorldController {
 
         private Player left;
         private Player right;
@@ -20,19 +20,35 @@ namespace Pong {
         private Client client;
         private Boolean isServer;
 
-        public WorldController(Player player1, Player player2, BallObject ball, 
-            Server server, Client client, Boolean isServer) {
+        // No more time... Got to do this
+        public Client TCPClient {
+            get {
+                return client;
+            }
+        }
+
+        public Server TCPServer {
+            get {
+                return server;
+            }
+        }
+
+        public WorldController(Player player1, Player player2, 
+            Server server = null, Client client = null, Boolean isServer = true) {
             left = player1;
             right = player2;
-            this.ball = ball;
             this.server = server;
             this.client = client;
             this.isServer = isServer;
-            initializeWorld();
+            initializeConnection();
+
         }
 
+        public void AttachBall(BallObject ball) {
+            this.ball = ball;
+        }
 
-        private void initializeWorld() {
+        private void initializeConnection() {
             receiver = new Thread(new ThreadStart(receiveData));
             sender = new Thread(new ThreadStart(sendDataUpdate));
         }
@@ -75,6 +91,11 @@ namespace Pong {
                 updateBall(analyzedMessage.Vectors[0], analyzedMessage.Radius);
         }
 
+        private void updatePlayersPositions(Vector2 left, Vector2 right) {
+            this.left.position = left;
+            this.right.position = right;
+        }
+
         public void UpdateBallData() {
             if (isServer && isThereConnection()) {
                 string message = ball.ToString();
@@ -83,14 +104,9 @@ namespace Pong {
         }
 
         private void updateBall(Vector2 vector, int radius) {
-            ball.Position = vector;
+            if (ball != null)
+                ball.Position = vector;
             ball.Radius = radius;
         }
-
-        private void updatePlayersPositions(Vector2 left, Vector2 right) {
-            this.left.position = left;
-            this.right.position = right;
-        }
-
     }
 }

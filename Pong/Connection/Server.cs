@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Net;
 
 namespace Pong.Connection {
-    class Server {
+    public class Server {
         private static Server instance;
         private Thread thread;
         private TcpListener connectionListener;

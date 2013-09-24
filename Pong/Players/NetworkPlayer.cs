@@ -7,12 +7,8 @@ using Pong.Connection;
 namespace Pong.Players {
     class NetworkPlayer : Player {
 
-        Server server;
-        Client client;
+        public NetworkPlayer(Side side) : base(side) {
 
-        public NetworkPlayer(Server server, Client client) : base(Side.RIGHT) {
-            this.server = server;
-            this.client = client;
         }
     }
 }
