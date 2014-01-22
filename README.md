@@ -3,3 +3,5 @@ Projekt grupowy na przedmiot "Programowanie Obiektowe" prowadzony na II UWr w se
 Autorzy:
  - Kacper Lamparski
  - Wiktor Mociun
+
+Warning: Server/client connection part is unfinished.
